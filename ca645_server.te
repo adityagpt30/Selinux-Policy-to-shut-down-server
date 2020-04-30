@@ -1,0 +1,130 @@
+policy_module(ca645_server, 1.0)
+
+require{
+type unconfined_t;
+type fs_t;
+role unconfined_r;
+type null_device_t;
+type user_devpts_t;
+type ld_so_t;
+type root_t;
+type etc_t;
+type lib_t;
+type usr_t;
+type net_conf_t;
+type proc_t;
+type selinux_config_t;
+type sysfs_t;
+type security_t;
+type var_t;
+type var_run_t;
+type soundd_port_t;
+type node_t;
+type NetworkManager_var_run_t;
+type bin_t;
+type locale_t;
+type shell_exec_t;
+attribute port_type;
+type xen_port_t;
+type ld_so_cache_t;
+type unreserved_port_t;
+type monopd_port_t;
+type http_port_t;
+type inetd_child_port_t;
+}
+
+type ca645_port_t;
+typeattribute ca645_port_t port_type;
+
+allow ca645_server_t ca645_port_t:tcp_socket name_connect;
+allow ca645_server_t ca645_port_t:tcp_socket name_bind;
+
+
+type ca645_server_t;
+allow unconfined_t ca645_server_t:file { open relabelto getattr read write execute execute_no_trans setattr };
+allow ca645_server_t fs_t:filesystem associate;
+allow unconfined_t ca645_server_t:file execute_no_trans;
+
+type_transition unconfined_t ca645_server_t:process ca645_server_t;
+allow unconfined_t ca645_server_t:process transition;
+
+allow ca645_server_t self:file { open relabelto getattr read write execute execute_no_trans ioctl lock entrypoint setattr };
+
+role unconfined_r types ca645_server_t;
+
+allow ca645_server_t null_device_t:chr_file { open read write };
+allow ca645_server_t unconfined_t:fd use;
+allow ca645_server_t ld_so_t:file { execute read };
+allow ca645_server_t user_devpts_t:chr_file append;
+allow ca645_server_t user_devpts_t:chr_file { read write };
+allow unconfined_t ca645_server_t:dir getattr;
+allow unconfined_t ca645_server_t:process { rlimitinh siginh };
+allow unconfined_t ca645_server_t:dir search;
+allow unconfined_t ca645_server_t:lnk_file read;
+allow unconfined_t ca645_server_t:process getattr;
+allow unconfined_t self: file { open relabelto getattr read write execute execute_no_trans };
+allow ca645_server_t locale_t:dir search;
+allow ca645_server_t root_t:dir search;
+allow unconfined_t ca645_server_t:process noatsecure;
+allow ca645_server_t etc_t:dir search;
+allow ca645_server_t bin_t:dir search;
+allow ca645_server_t etc_t:file read;
+allow ca645_server_t locale_t:file read;
+
+allow ca645_server_t lib_t:lnk_file read;
+allow ca645_server_t usr_t:dir search;
+allow ca645_server_t lib_t:file open;
+
+
+allow ca645_server_t lib_t:dir { getattr search };
+allow ca645_server_t etc_t:file open;
+allow ca645_server_t lib_t:file read;
+allow ca645_server_t etc_t:file getattr;
+allow ca645_server_t lib_t:file getattr;
+allow ca645_server_t lib_t:file execute;
+
+allow ca645_server_t locale_t:file open;
+allow ca645_server_t locale_t:file getattr;
+
+allow ca645_server_t net_conf_t:file read;
+allow ca645_server_t net_conf_t:lnk_file read;
+allow ca645_server_t proc_t:dir search;
+allow ca645_server_t proc_t:file read;
+allow ca645_server_t proc_t:lnk_file read;
+allow ca645_server_t self:tcp_socket create;
+allow ca645_server_t self:udp_socket create;
+allow ca645_server_t self:unix_stream_socket create;
+allow ca645_server_t selinux_config_t:dir search;
+allow ca645_server_t sysfs_t:dir search;
+allow ca645_server_t user_devpts_t:chr_file getattr;
+allow ca645_server_t net_conf_t:file open;
+allow ca645_server_t security_t:filesystem getattr;
+allow ca645_server_t self:tcp_socket setopt;
+allow ca645_server_t self:udp_socket connect;
+allow ca645_server_t self:unix_stream_socket connect;
+allow ca645_server_t net_conf_t:file getattr;
+allow ca645_server_t self:tcp_socket bind;
+allow ca645_server_t var_run_t:lnk_file read;
+allow ca645_server_t soundd_port_t:tcp_socket name_bind;
+allow ca645_server_t node_t:tcp_socket node_bind;
+allow ca645_server_t var_run_t:dir search;
+allow ca645_server_t var_t:dir search;
+allow ca645_server_t self:tcp_socket listen;
+allow ca645_server_t self:tcp_socket accept;
+allow ca645_server_t self:tcp_socket connect;
+allow ca645_server_t NetworkManager_var_run_t:dir search;
+allow ca645_server_t soundd_port_t:tcp_socket name_connect;
+allow ca645_server_t self:process fork;
+allow ca645_server_t self:tcp_socket read;
+allow ca645_server_t self:tcp_socket write;
+allow ca645_server_t locale_t:lnk_file read;
+
+allow ca645_server_t bin_t:lnk_file read;
+
+allow unconfined_t ca645_server_t:process signal;
+
+
+
+allow ca645_server_t ld_so_cache_t:file { getattr open read };
+
+
